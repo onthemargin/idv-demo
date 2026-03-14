@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consumer Identity Verification Demo</title>
+    <link rel="stylesheet" href="/idv-demo/app.css?v=4">
+</head>
+<body>
+
+<div class="demo-banner">
+    <strong>DEMO</strong> &nbsp;·&nbsp; Fully simulated &nbsp;·&nbsp; All processing is client-side &nbsp;·&nbsp; No data is captured, transmitted, or stored
+</div>
+
+<main class="intro-main">
+
+    <!-- Hero -->
+    <section class="intro-hero">
+        <div class="intro-eyebrow">Consumer Identity Verification · Interactive Demo</div>
+        <h1 class="intro-headline">A social login tells you someone<br>controls an email address. That's it.</h1>
+        <p class="intro-subhead">This demo shows what happens when you close the gap — combining social login with document verification and liveness detection to produce a trusted, signed identity credential.</p>
+        <a href="/idv-demo/signin" class="btn btn--primary btn--lg">Start the demo &rarr;</a>
+        <div class="intro-hero-meta">~3 minutes &nbsp;·&nbsp; Camera required for liveness step &nbsp;·&nbsp; Nothing leaves your browser</div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stat-strip">
+        <div class="stat-item">
+            <div class="stat-num">$13B+</div>
+            <div class="stat-label">annual account takeover<br>fraud losses in the US</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+            <div class="stat-num">73%</div>
+            <div class="stat-label">of fraud originates at<br>account creation or login</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+            <div class="stat-num">~90s</div>
+            <div class="stat-label">added to onboarding with<br>document + liveness IDV</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+            <div class="stat-num">IAL1.5</div>
+            <div class="stat-label">assurance level produced<br>by this demo flow</div>
+        </div>
+    </section>
+
+    <!-- IAL as a business decision -->
+    <section class="intro-section">
+        <div class="intro-section-hd">
+            <h2 class="intro-section-title">Identity assurance is a business decision</h2>
+            <p class="intro-section-sub">NIST SP 800-63 defines identity assurance levels (IAL). Each level trades user friction for fraud resistance. The right choice depends on your risk exposure and regulatory context.</p>
+        </div>
+
+        <div class="ial-cards">
+
+            <div class="ial-card">
+                <div class="ial-card-level">IAL1</div>
+                <div class="ial-card-name">Social login</div>
+                <div class="ial-card-what">Verifies control of an email address. Nothing more.</div>
+                <div class="ial-card-rows">
+                    <div class="ial-card-row">
+                        <span class="ial-row-label">Fraud risk</span>
+                        <span class="ial-pill ial-pill--high">High</span>
+                    </div>
+                    <div class="ial-card-row">
+                        <span class="ial-row-label">Onboarding friction</span>
+                        <span class="ial-pill ial-pill--none">None — one click</span>
+                    </div>
+                    <div class="ial-card-row">
+                        <span class="ial-row-label">Typical use case</span>
+                        <span class="ial-row-val">Forums, low-value accounts</span>
+                    </div>
+                    <div class="ial-card-row">
+                        <span class="ial-row-label">Regulatory fit</span>
+                        <span class="ial-row-val">Minimal compliance coverage</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ial-card ial-card--active">
+                <div class="ial-card-this">This demo</div>
+                <div class="ial-card-level">IAL1.5</div>
+                <div class="ial-card-name">Document + liveness</div>
+                <div class="ial-card-what">Verifies a real person holds a real document and matches a live face.</div>
+                <div class="ial-card-rows">
+                    <div class="ial-card-row">
+                        <span class="ial-row-label">Fraud risk</span>
+                        <span class="ial-pill ial-pill--med">Reduced ~80%</span>
+                    </div>
+                    <div class="ial-card-row">
+                        <span class="ial-row-label">Onboarding friction</span>
+                        <span class="ial-pill ial-pill--low">~90 seconds</span>
+                    </div>
+                    <div class="ial-card-row">
+                        <span class="ial-row-label">Typical use case</span>
+                        <span class="ial-row-val">Fintech, healthcare, gig economy</span>
+                    </div>
+                    <div class="ial-card-row">
+                        <span class="ial-row-label">Regulatory fit</span>
+                        <span class="ial-row-val">FFIEC, PSD2, HIPAA onboarding</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ial-card">
+                <div class="ial-card-level">IAL2</div>
+                <div class="ial-card-name">Government-grade</div>
+                <div class="ial-card-what">In-person or certified remote identity proofing against authoritative sources.</div>
+                <div class="ial-card-rows">
+                    <div class="ial-card-row">
+                        <span class="ial-row-label">Fraud risk</span>
+                        <span class="ial-pill ial-pill--min">Minimal</span>
+                    </div>
+                    <div class="ial-card-row">
+                        <span class="ial-row-label">Onboarding friction</span>
+                        <span class="ial-pill ial-pill--high-f">High — days to weeks</span>
+                    </div>
+                    <div class="ial-card-row">
+                        <span class="ial-row-label">Typical use case</span>
+                        <span class="ial-row-val">Banking, government services</span>
+                    </div>
+                    <div class="ial-card-row">
+                        <span class="ial-row-label">Regulatory fit</span>
+                        <span class="ial-row-val">KYC/AML, REAL ID Act</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- What the demo shows -->
+    <section class="intro-section">
+        <div class="intro-section-hd">
+            <h2 class="intro-section-title">What this demo shows</h2>
+            <p class="intro-section-sub">A complete IAL1.5 verification flow — from social login to a server-signed identity credential — running entirely in your browser. No images or biometrics are transmitted.</p>
+        </div>
+
+        <div class="flow-steps">
+            <div class="flow-step">
+                <div class="flow-step-num">1</div>
+                <div class="flow-step-body">
+                    <div class="flow-step-title">Mock social login (Google, Microsoft, or Facebook)</div>
+                    <div class="flow-step-desc">Simulates an ID token exchange. Returns realistic claims: name, email, profile picture, <code>sub</code>, and token metadata. This is your IAL1 baseline.</div>
+                </div>
+            </div>
+            <div class="flow-step">
+                <div class="flow-step-num">2</div>
+                <div class="flow-step-body">
+                    <div class="flow-step-title">Social identity inspection (IAL1)</div>
+                    <div class="flow-step-desc">Surfaces exactly what a social login gives you — and makes visible why it isn't enough for high-trust decisions. Name and email are unverified assertions.</div>
+                </div>
+            </div>
+            <div class="flow-step">
+                <div class="flow-step-num">3</div>
+                <div class="flow-step-body">
+                    <div class="flow-step-title">Document scan &amp; OCR</div>
+                    <div class="flow-step-desc">Client-side OCR via Tesseract.js reads the document. ICAO 9303 check digit validation confirms the document number hasn't been tampered with.</div>
+                </div>
+            </div>
+            <div class="flow-step">
+                <div class="flow-step-num">4</div>
+                <div class="flow-step-body">
+                    <div class="flow-step-title">Liveness detection</div>
+                    <div class="flow-step-desc">Blink and head-turn challenge via face-api.js defeats static photo spoofing. Captures a 128-dimension face descriptor for matching in the next step.</div>
+                </div>
+            </div>
+            <div class="flow-step flow-step--last">
+                <div class="flow-step-num">5</div>
+                <div class="flow-step-body">
+                    <div class="flow-step-title">Binding analysis &rarr; IAL1.5 credential</div>
+                    <div class="flow-step-desc">Jaro-Winkler name match + Euclidean face distance + session continuity. On pass, the server mints a signed JWT with <code>ialLevel: "IAL1.5"</code> — a portable proof of verified identity.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Privacy -->
+    <div class="privacy-note intro-privacy">
+        <span class="icon">&#128274;</span>
+        <div>
+            <strong>Nothing you do here leaves your browser.</strong> Document scanning and face detection run entirely on your device via WebAssembly. The only server interaction is a final POST that mints a signed JWT from OCR-extracted text fields — no images, no biometrics, no personal data transmitted or stored.
+        </div>
+    </div>
+
+    <!-- Final CTA -->
+    <div class="intro-cta">
+        <a href="/idv-demo/signin" class="btn btn--primary btn--lg">Start the demo &rarr;</a>
+        <div class="intro-hero-meta">~3 minutes &nbsp;·&nbsp; Camera required for liveness step</div>
+    </div>
+
+</main>
+
+<footer style="text-align:center; padding:1.5rem; font-size:0.78rem; color:#9ca3af;">
+    Built with <a href="https://claude.ai/claude-code" target="_blank" rel="noopener" style="color:#9ca3af;">Claude Code</a>
+    &nbsp;·&nbsp;
+    <a href="https://github.com/onthemargin/idv-demo" target="_blank" rel="noopener" style="color:#9ca3af;">GitHub</a>
+</footer>
+
+</body>
+</html>

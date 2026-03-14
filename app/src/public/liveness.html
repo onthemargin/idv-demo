@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liveness Check · IDV Demo</title>
+    <link rel="stylesheet" href="/idv-demo/app.css?v=3">
+</head>
+<body data-step="4">
+
+<div class="demo-banner">
+    <strong>🧪 DEMO</strong> &nbsp;·&nbsp; Fully simulated &nbsp;·&nbsp; All processing is client-side &nbsp;·&nbsp; No data is captured, transmitted, or stored
+</div>
+
+<nav class="stepper" aria-label="Progress">
+    <div class="stepper-inner">
+        <a class="step" data-step-ref="1" href="/idv-demo/signin">
+            <span class="step-circle">1</span>
+            <span class="step-label">Sign In</span>
+        </a>
+        <div class="step-line" data-step-ref="1"></div>
+        <a class="step" data-step-ref="2" href="/idv-demo/dashboard">
+            <span class="step-circle">2</span>
+            <span class="step-label">Social Claims</span>
+        </a>
+        <div class="step-line" data-step-ref="2"></div>
+        <a class="step" data-step-ref="3" href="/idv-demo/idv">
+            <span class="step-circle">3</span>
+            <span class="step-label">Scan Document</span>
+        </a>
+        <div class="step-line" data-step-ref="3"></div>
+        <a class="step" data-step-ref="4" href="/idv-demo/liveness">
+            <span class="step-circle">4</span>
+            <span class="step-label">Liveness</span>
+        </a>
+        <div class="step-line" data-step-ref="4"></div>
+        <a class="step" data-step-ref="5">
+            <span class="step-circle">5</span>
+            <span class="step-label">Binding</span>
+        </a>
+    </div>
+</nav>
+
+<main class="main">
+    <div class="step-context">
+        <span class="step-context-step">Step 4 of 5</span>
+        <span>&middot;</span>
+        <span>Proving a real person is present — blink and head-turn defeat static photo spoofing. Captures a face descriptor for binding comparison.</span>
+    </div>
+
+    <div class="section-header-row">
+        <div>
+            <h2>Liveness Check <span class="badge badge--local">Client-side only</span></h2>
+            <p>Confirm you're a real person — blink, then turn your head to the side.</p>
+        </div>
+        <div style="display:flex; gap:0.75rem; flex-shrink:0; align-items:flex-start;">
+            <a href="/idv-demo/idv" class="btn btn--secondary btn--sm">← Scan Document</a>
+            <div id="submit-section" class="hidden">
+                <button class="btn btn--primary btn--sm" id="submit-btn">
+                    Submit &amp; continue to binding →
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="privacy-note">
+            <span class="icon">🔒</span>
+            <span>Face detection runs locally via <strong>face-api.js</strong>. Your camera feed is never recorded or transmitted.</span>
+        </div>
+        <div class="privacy-note" style="margin-top:0.5rem;">
+            <span class="icon">ℹ️</span>
+            <span>This checks that a real person is present (blink + head turn). It does <strong>not</strong> compare your face against the document photo — that happens on the binding page.</span>
+        </div>
+
+        <div id="liveness-loading" class="text-center" style="padding:1rem;">
+            <span class="spinner" style="border-color:rgba(0,0,0,.15); border-top-color:#2563eb; width:24px; height:24px;"></span>
+            <p class="mt-1 text-muted" style="font-size:0.85rem;">Loading face detection models…</p>
+        </div>
+
+        <div id="liveness-ui" class="hidden text-center">
+            <div class="camera-container">
+                <video id="liveness-video" class="camera-video" autoplay playsinline muted></video>
+                <canvas id="liveness-canvas" style="display:none;"></canvas>
+                <div class="camera-overlay" id="cam-overlay"></div>
+            </div>
+
+            <div class="liveness-status" id="liveness-status">Position your face in the oval</div>
+
+            <div class="liveness-stages">
+                <div class="stage" id="stage-face">⬜ Face detected</div>
+                <div class="stage" id="stage-blink">⬜ Blink</div>
+                <div class="stage" id="stage-selfie">⬜ Selfie</div>
+                <div class="stage" id="stage-turn">⬜ Turn head</div>
+            </div>
+
+            <div id="selfie-preview" style="display:none; align-items:center; gap:0.75rem; justify-content:center; margin-top:0.75rem;">
+                <img id="selfie-thumb" class="selfie-thumb" alt="Selfie captured">
+                <span style="color:#16a34a; font-size:0.85rem; font-weight:600;">Front view captured</span>
+            </div>
+
+            <button class="btn btn--primary" id="start-camera-btn">Start Camera</button>
+        </div>
+
+        <div id="liveness-error" class="hidden" style="color:#dc2626; margin-top:0.5rem; font-size:0.85rem;"></div>
+    </div>
+</main>
+
+<!-- face-api.js -->
+<script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.js"></script>
+<script src="/idv-demo/liveness.js?v=1"></script>
+</body>
+</html>

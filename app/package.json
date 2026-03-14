@@ -1,0 +1,17 @@
+{
+  "name": "idv-demo",
+  "version": "1.0.0",
+  "description": "Consumer Identity Verification Demo",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.5.0",
+    "express-session": "^1.18.0",
+    "helmet": "^8.1.0"
+  }
+}

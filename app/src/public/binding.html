@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Identity Binding · IDV Demo</title>
+    <link rel="stylesheet" href="/idv-demo/app.css?v=3">
+</head>
+<body data-step="5">
+
+<div class="demo-banner">
+    <strong>🧪 DEMO</strong> &nbsp;·&nbsp; Fully simulated &nbsp;·&nbsp; All processing is client-side &nbsp;·&nbsp; No data is captured, transmitted, or stored
+</div>
+
+<nav class="stepper" aria-label="Progress">
+    <div class="stepper-inner">
+        <a class="step" data-step-ref="1" href="/idv-demo/signin">
+            <span class="step-circle">1</span>
+            <span class="step-label">Sign In</span>
+        </a>
+        <div class="step-line" data-step-ref="1"></div>
+        <a class="step" data-step-ref="2" href="/idv-demo/dashboard">
+            <span class="step-circle">2</span>
+            <span class="step-label">Social Claims</span>
+        </a>
+        <div class="step-line" data-step-ref="2"></div>
+        <a class="step" data-step-ref="3" href="/idv-demo/idv">
+            <span class="step-circle">3</span>
+            <span class="step-label">Scan Document</span>
+        </a>
+        <div class="step-line" data-step-ref="3"></div>
+        <a class="step" data-step-ref="4" href="/idv-demo/liveness">
+            <span class="step-circle">4</span>
+            <span class="step-label">Liveness</span>
+        </a>
+        <div class="step-line" data-step-ref="4"></div>
+        <a class="step" data-step-ref="5" href="/idv-demo/binding">
+            <span class="step-circle">5</span>
+            <span class="step-label">Binding</span>
+        </a>
+    </div>
+</nav>
+
+<main class="main main--wide">
+    <div class="section-header-row">
+        <div>
+            <h2>Identity Binding Analysis</h2>
+            <p>Comparing social login identity with document-verified identity.</p>
+        </div>
+        <div style="display:flex; gap:0.75rem; flex-shrink:0; align-items:flex-start;">
+            <a href="/idv-demo/liveness" class="btn btn--secondary btn--sm">← Redo liveness</a>
+            <button id="signout-btn" class="btn btn--secondary btn--sm">Sign out &amp; start over</button>
+        </div>
+    </div>
+
+    <div class="step-context">
+        <span class="step-context-step">Step 5 of 5</span>
+        <span>&middot;</span>
+        <span>Binding analysis — combining social login + document + liveness. A match produces an IAL1.5 credential. A mismatch flags the identity.</span>
+    </div>
+
+    <div id="loading" class="card text-center" style="padding:2rem;">
+        <span class="spinner" style="border-color:rgba(0,0,0,.15); border-top-color:#2563eb; width:28px; height:28px;"></span>
+        <p class="mt-1 text-muted">Loading binding data…</p>
+    </div>
+
+    <div id="binding-content" class="hidden">
+
+        <!-- Two-column identity side by side -->
+        <div class="binding-cols">
+            <div class="binding-col">
+                <h3>
+                    <span id="provider-icon" style="display:inline-flex; align-items:center; margin-right:0.3rem;"></span>
+                    Social Identity (IAL1) &nbsp;<span class="badge badge--sim">Simulated</span>
+                </h3>
+                <div class="profile-row" style="margin-bottom:0.75rem;">
+                    <img id="social-avatar" class="profile-avatar" src="" alt="Social profile photo">
+                    <div>
+                        <div class="name" id="social-name"></div>
+                        <div class="email" id="social-email"></div>
+                    </div>
+                </div>
+                <div class="claims-grid" id="social-claims-grid" style="font-size:0.82rem;"></div>
+            </div>
+
+            <div class="binding-col">
+                <h3>Document Identity (IAL1.5) &nbsp;<span class="badge badge--local">Client-side</span></h3>
+                <div class="profile-row" style="margin-bottom:0.75rem; align-items:flex-start; gap:0.75rem;">
+                    <img id="selfie-display" class="profile-avatar" src="" alt="Liveness selfie">
+                    <div>
+                        <div class="name" id="doc-name"></div>
+                        <div class="email" style="margin-top:0.2rem;" id="doc-dob"></div>
+                        <div class="email" id="doc-docnum"></div>
+                        <div style="margin-top:0.3rem;"><span class="badge badge--ok">Liveness ✅</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Binding evidence -->
+        <div class="card">
+            <div class="card-title">Binding Evidence</div>
+
+            <!-- Session continuity -->
+            <div class="binding-signal animate-signal" style="animation-delay:0.1s">
+                <div class="sig-icon">✅</div>
+                <div class="sig-body">
+                    <div class="sig-title">Session Continuity</div>
+                    <div class="sig-detail">Social login and document verification completed in the same browser session.</div>
+                </div>
+            </div>
+
+            <!-- Name match -->
+            <div class="binding-signal animate-signal" id="name-signal" style="animation-delay:0.45s">
+                <div class="sig-icon" id="name-sig-icon">🔄</div>
+                <div class="sig-body">
+                    <div class="sig-title">Name Match · <span id="name-score-pct">—</span> · Grade: <span id="name-grade">—</span></div>
+                    <div class="sig-detail">
+                        "<span id="nm-social"></span>" ≈ "<span id="nm-verified"></span>"
+                        &nbsp;·&nbsp; Jaro-Winkler fuzzy match
+                    </div>
+                    <div class="score-bar" style="margin-top:0.5rem;">
+                        <div class="score-fill" id="name-score-bar" style="width:0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Face match (computed client-side) -->
+            <div class="binding-signal animate-signal" style="animation-delay:0.8s">
+                <div class="sig-icon" id="face-sig-icon">🤖</div>
+                <div class="sig-body">
+                    <div class="sig-title">Face Match · <span id="face-score-pct">Computing…</span> · Grade: <span id="face-grade">—</span></div>
+                    <div class="sig-detail" id="face-detail">
+                        Selfie vs. social profile photo — face-api.js Euclidean distance on 128-dim descriptors.
+                    </div>
+                    <div class="face-compare" id="face-compare-row">
+                        <img id="face-social-img" class="face-img" src="" alt="Social profile photo">
+                        <span class="arrow">↔</span>
+                        <img id="selfie-compare-img" class="face-img" src="" alt="Liveness selfie">
+                        <div style="font-size:0.78rem; color:#6b7280; margin-left:0.25rem;">
+                            <div id="face-distance-display">—</div>
+                            <div style="margin-top:0.15rem;">Computed client-side · face-api.js</div>
+                        </div>
+                    </div>
+                    <div class="score-bar" style="margin-top:0.5rem;">
+                        <div class="score-fill" id="face-score-bar" style="width:0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Verification credential (populated by JS) -->
+            <div id="vc-section" class="hidden"></div>
+
+            <!-- Liveness -->
+            <div class="binding-signal animate-signal" style="animation-delay:1.15s">
+                <div class="sig-icon">✅</div>
+                <div class="sig-body">
+                    <div class="sig-title">Liveness · Real human present during verification</div>
+                    <div class="sig-detail" style="display:flex; align-items:center; gap:0.75rem; margin-top:0.4rem;">
+                        <img id="liveness-thumb" class="face-img" src="" alt="Liveness selfie" style="width:52px;height:52px;">
+                        <span>face-api.js blink detection + head turn · client-side only</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Result -->
+        <div class="result-box animate-signal" id="result-box" style="animation-delay:1.6s">
+            <div class="result-icon" id="result-icon">&#9989;</div>
+            <div>
+                <div class="result-verdict" id="result-verdict"></div>
+                <div class="result-confidence" id="result-confidence"></div>
+                <div class="result-title">Result: <span class="badge badge--ial">IAL1.5</span></div>
+                <div class="result-sub">Session continuity + OCR name match + face descriptor comparison</div>
+                <div style="font-size:0.78rem; color:#15803d; margin-top:0.3rem;">Above social login (IAL1). Below full government document IDV (IAL2).</div>
+                <div style="font-size:0.78rem; color:#15803d; margin-top:0.5rem; opacity:0.7;">
+                    Session cleared &middot; Refresh to run the demo again from the beginning
+                </div>
+            </div>
+        </div>
+
+        <!-- Shareable receipt -->
+        <div id="receipt-card" class="receipt-card hidden">
+            <div class="receipt-header">
+                <div class="receipt-title">Verification Receipt</div>
+                <span class="badge badge--ial">IAL1.5</span>
+            </div>
+            <div class="receipt-rows">
+                <div class="receipt-row">
+                    <span class="receipt-label">Verified name</span>
+                    <span class="receipt-val" id="receipt-name"></span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Provider</span>
+                    <span class="receipt-val" id="receipt-provider"></span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Overall confidence</span>
+                    <span class="receipt-val" id="receipt-confidence">Computing&hellip;</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Issued</span>
+                    <span class="receipt-val" id="receipt-issued"></span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Credential ID</span>
+                    <span class="receipt-val receipt-mono" id="receipt-jti">&mdash;</span>
+                </div>
+            </div>
+            <button class="btn btn--secondary btn--sm" id="copy-credential-btn">Copy JWT credential</button>
+        </div>
+
+    </div>
+</main>
+
+<!-- face-api.js (needed for client-side face comparison) -->
+<script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.js"></script>
+<script src="/idv-demo/binding.js?v=2"></script>
+</body>
+</html>

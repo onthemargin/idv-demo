@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Identity · IDV Demo</title>
+    <link rel="stylesheet" href="/idv-demo/app.css?v=3">
+</head>
+<body data-step="2">
+
+<div class="demo-banner">
+    <strong>🧪 DEMO</strong> &nbsp;·&nbsp; Fully simulated &nbsp;·&nbsp; All processing is client-side &nbsp;·&nbsp; No data is captured, transmitted, or stored
+</div>
+
+<nav class="stepper" aria-label="Progress">
+    <div class="stepper-inner">
+        <a class="step" data-step-ref="1" href="/idv-demo/signin">
+            <span class="step-circle">1</span>
+            <span class="step-label">Sign In</span>
+        </a>
+        <div class="step-line" data-step-ref="1"></div>
+        <a class="step" data-step-ref="2" href="/idv-demo/dashboard">
+            <span class="step-circle">2</span>
+            <span class="step-label">Social Claims</span>
+        </a>
+        <div class="step-line" data-step-ref="2"></div>
+        <a class="step" data-step-ref="3" href="/idv-demo/idv">
+            <span class="step-circle">3</span>
+            <span class="step-label">Scan Document</span>
+        </a>
+        <div class="step-line" data-step-ref="3"></div>
+        <a class="step" data-step-ref="4">
+            <span class="step-circle">4</span>
+            <span class="step-label">Liveness</span>
+        </a>
+        <div class="step-line" data-step-ref="4"></div>
+        <a class="step" data-step-ref="5">
+            <span class="step-circle">5</span>
+            <span class="step-label">Binding</span>
+        </a>
+    </div>
+</nav>
+
+<main class="main">
+    <div class="step-context">
+        <span class="step-context-step">Step 2 of 5</span>
+        <span>&middot;</span>
+        <span>IAL1 — social login proves email control only. Name and email are unverified assertions anyone can type.</span>
+    </div>
+
+    <div id="loading" class="card text-center" style="padding:2rem;">
+        <span class="spinner" style="border-color:rgba(0,0,0,.15); border-top-color:#2563eb; width:28px; height:28px;"></span>
+        <p class="mt-1 text-muted">Loading claims…</p>
+    </div>
+
+    <div id="claims-content" class="hidden">
+        <div class="section-header-row">
+            <div>
+                <h2>Social Identity <span class="badge badge--sim">Simulated</span> <span class="badge badge--local" style="margin-left:.25rem">IAL1</span></h2>
+                <p id="provider-description">Social login claims — what you'd receive after a real consumer sign-in.</p>
+            </div>
+            <div style="display:flex; gap:0.75rem; flex-shrink:0; align-items:flex-start;">
+                <button id="signout-btn" class="btn btn--secondary btn--sm">Sign out</button>
+                <a href="/idv-demo/idv" class="btn btn--primary btn--sm">Verify your identity →</a>
+            </div>
+        </div>
+
+        <div class="risk-callout">
+            <strong>This is everything you know about this user.</strong> There is no proof this is a real person, that the name is accurate, or that this account wasn't created fraudulently five minutes ago.
+        </div>
+
+        <div class="card">
+            <div class="profile-row">
+                <img id="avatar" class="profile-avatar" src="" alt="Profile photo">
+                <div>
+                    <div class="name" id="display-name"></div>
+                    <div class="email" id="display-email"></div>
+                    <div style="margin-top:.3rem">
+                        <span class="badge badge--ok" id="email-verified-badge"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-title">ID Token Claims</div>
+            <div class="claims-grid" id="claims-grid"></div>
+
+            <details style="margin-top:1.25rem">
+                <summary>Token metadata</summary>
+                <pre id="token-meta-json"></pre>
+            </details>
+
+            <details>
+                <summary>Decoded ID token</summary>
+                <pre id="id-token-json"></pre>
+            </details>
+
+            <details>
+                <summary>Raw response JSON</summary>
+                <pre id="raw-json"></pre>
+            </details>
+        </div>
+
+    </div>
+</main>
+
+<script src="/idv-demo/dashboard.js?v=2"></script>
+</body>
+</html>
