@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan Document · IDV Demo</title>
+    <link rel="stylesheet" href="/idv-demo/app.css?v=3">
+</head>
+<body data-step="3">
+
+<div class="demo-banner">
+    <strong>🧪 DEMO</strong> &nbsp;·&nbsp; Fully simulated &nbsp;·&nbsp; All processing is client-side &nbsp;·&nbsp; No data is captured, transmitted, or stored
+</div>
+
+<nav class="stepper" aria-label="Progress">
+    <div class="stepper-inner">
+        <a class="step" data-step-ref="1" href="/idv-demo/signin">
+            <span class="step-circle">1</span>
+            <span class="step-label">Sign In</span>
+        </a>
+        <div class="step-line" data-step-ref="1"></div>
+        <a class="step" data-step-ref="2" href="/idv-demo/dashboard">
+            <span class="step-circle">2</span>
+            <span class="step-label">Social Claims</span>
+        </a>
+        <div class="step-line" data-step-ref="2"></div>
+        <a class="step" data-step-ref="3" href="/idv-demo/idv">
+            <span class="step-circle">3</span>
+            <span class="step-label">Scan Document</span>
+        </a>
+        <div class="step-line" data-step-ref="3"></div>
+        <a class="step" data-step-ref="4">
+            <span class="step-circle">4</span>
+            <span class="step-label">Liveness</span>
+        </a>
+        <div class="step-line" data-step-ref="4"></div>
+        <a class="step" data-step-ref="5">
+            <span class="step-circle">5</span>
+            <span class="step-label">Binding</span>
+        </a>
+    </div>
+</nav>
+
+<main class="main">
+    <div class="step-context">
+        <span class="step-context-step">Step 3 of 5</span>
+        <span>&middot;</span>
+        <span>Adding document verification — OCR extracts name, DOB, and document number. Check digit confirms the document hasn't been tampered with.</span>
+    </div>
+
+    <div class="section-header-row">
+        <div>
+            <h2>Scan Document <span class="badge badge--local">Client-side OCR</span></h2>
+            <p>Scan your ID document. All OCR processing runs on your device.</p>
+        </div>
+        <div style="display:flex; gap:0.75rem; flex-shrink:0; align-items:flex-start;">
+            <a href="/idv-demo/dashboard" class="btn btn--secondary btn--sm">← Social Claims</a>
+            <button class="btn btn--primary btn--sm" id="to-liveness-btn" disabled>
+                Continue to liveness →
+            </button>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="privacy-note">
+            <span class="icon">🔒</span>
+            <span>Processed entirely on your device by <strong>Tesseract.js</strong> (OCR). Your document image is never uploaded or stored.</span>
+        </div>
+
+        <div class="input-cards">
+            <div class="input-card" id="card-testid">
+                <div class="card-icon">📋</div>
+                <div class="card-lbl">Use Test ID</div>
+                <div class="card-desc">Load a sample demo government ID with prefilled data</div>
+            </div>
+            <div class="input-card" id="card-upload">
+                <div class="card-icon">📁</div>
+                <div class="card-lbl">Upload Photo</div>
+                <div class="card-desc">JPG/PNG from your device</div>
+            </div>
+            <div class="input-card" id="card-camera">
+                <div class="card-icon">📷</div>
+                <div class="card-lbl">Use Camera</div>
+                <div class="card-desc">Take a photo with your webcam</div>
+            </div>
+        </div>
+
+        <input type="file" id="file-input" accept="image/*" class="hidden">
+
+        <div id="doc-camera-ui" class="hidden text-center">
+            <video id="doc-video" autoplay playsinline style="max-width:100%; border-radius:0.5rem; border:1px solid #e5e7eb; margin-bottom:0.75rem;"></video>
+            <div style="display:flex; gap:0.75rem; justify-content:center;">
+                <button class="btn btn--primary" id="doc-capture-btn">📸 Capture</button>
+                <button class="btn btn--secondary" id="doc-cancel-btn">Cancel</button>
+            </div>
+        </div>
+
+        <canvas id="doc-canvas" class="hidden"></canvas>
+        <img id="doc-preview" class="doc-preview hidden" alt="Document preview">
+
+        <div id="ocr-section" class="hidden">
+            <div class="progress-wrap">
+                <div class="progress-bar" id="ocr-progress"></div>
+            </div>
+            <div class="progress-label" id="ocr-status">Starting OCR…</div>
+
+            <div id="ocr-result" class="hidden">
+                <div class="ocr-fields">
+                    <div class="ocr-field">
+                        <label>Name</label>
+                        <div class="val" id="ocr-name">—</div>
+                    </div>
+                    <div class="ocr-field">
+                        <label>Date of Birth</label>
+                        <div class="val" id="ocr-dob">—</div>
+                    </div>
+                    <div class="ocr-field">
+                        <label>Document Number</label>
+                        <div class="val" id="ocr-docnum">—</div>
+                        <div id="ocr-checkdigit" style="font-size:0.78rem; margin-top:0.2rem;"></div>
+                    </div>
+                    <div class="ocr-field" id="name-correction-field" style="grid-column:1/-1; display:none;">
+                        <label>Name not detected — please confirm</label>
+                        <input type="text" id="name-correction" placeholder="Enter name as shown on document">
+                    </div>
+                </div>
+
+                <details>
+                    <summary>Raw OCR text</summary>
+                    <pre id="ocr-raw"></pre>
+                </details>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Tesseract.js v5 -->
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<script src="/idv-demo/idv.js?v=9"></script>
+</body>
+</html>

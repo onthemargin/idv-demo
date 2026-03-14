@@ -1,0 +1,47 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables — allow only the example template
+.env
+.env.*
+!.env.example
+
+# Runtime directories
+runtime/
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.temp
+
+# Security and credentials
+*.pem
+*.key
+*.crt
+*.p12
+secrets.json
+credentials.json
+
+# Claude Code
+.claude/
